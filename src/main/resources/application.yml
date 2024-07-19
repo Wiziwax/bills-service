@@ -2,10 +2,10 @@ spring:
   application:
     name: bills-service
   datasource:
-    url: jdbc:mysql://localhost:3306/bills_payment
+    url: jdbc:mysql://mysql.railway.internal:3306/railway
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: cassillas1nengi
+    password: mTLghtBwptIRVTlJPyHlzrzEhciugbmZ
   jpa:
     hibernate:
       ddl-auto: update
