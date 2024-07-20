@@ -19,7 +19,6 @@ public class BillPaymentController {
 
     private final BillPaymentService billPaymentService;
     private final BankService bankService;
-
     public BillPaymentController(BillPaymentService billPaymentService, BankService bankService) {
         this.billPaymentService = billPaymentService;
         this.bankService = bankService;
