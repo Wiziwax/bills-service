@@ -1,5 +1,6 @@
 package org.interswitch.billsservice.Services;
 
+import org.interswitch.billsservice.DTOs.BankAccountResponseDTO;
 import org.interswitch.billsservice.DTOs.TransferDTO;
 import org.interswitch.billsservice.Entities.BankAccount;
 import org.interswitch.billsservice.Entities.Banks;
@@ -12,7 +13,7 @@ public interface BankService {
 
     Page<Banks> findAllBanks(Pageable pageable);
     String fundAccount(TransferDTO transferDTO);
-    BankAccount findByAccountNumber(String accountNo);
-    Page<BankAccount> findAllByBankCode(String bankCode, Pageable pageable);
+    BankAccountResponseDTO findByAccountNumber(String accountNo);
+    Page<BankAccountResponseDTO> findAllByBankCode(String bankCode, Pageable pageable);
 
 }

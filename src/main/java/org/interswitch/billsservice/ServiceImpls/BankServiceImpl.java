@@ -1,9 +1,6 @@
 package org.interswitch.billsservice.ServiceImpls;
 
-import org.interswitch.billsservice.DTOs.AccountDTO;
-import org.interswitch.billsservice.DTOs.CustomerDTO;
-import org.interswitch.billsservice.DTOs.PaymentDTO;
-import org.interswitch.billsservice.DTOs.TransferDTO;
+import org.interswitch.billsservice.DTOs.*;
 import org.interswitch.billsservice.Entities.BankAccount;
 import org.interswitch.billsservice.Entities.Banks;
 import org.interswitch.billsservice.Repositories.BankAccountRepository;
@@ -95,15 +92,49 @@ public class BankServiceImpl implements BankService {
         return "Transaction Successful";
     }
 
-    @Override
-    public BankAccount findByAccountNumber(String accountNo) {
-        return bankAccountsRepository.findByAccountNo(accountNo)
-                .orElseThrow(()-> new RuntimeException(String.format("Could not find Account with Account number %s", accountNo)));
+    public BankAccountResponseDTO findByAccountNumber(String accountNo) {
+        BankAccount bankAccount = bankAccountsRepository.findByAccountNo(accountNo)
+                .orElseThrow(() -> new RuntimeException(String.format("Could not find Account with Account number %s", accountNo)));
+
+        return BankAccountResponseDTO.builder()
+                .id(bankAccount.getId())
+                .accountNo(bankAccount.getAccountNo())
+                .branchNo(bankAccount.getBranchNo())
+                .createdBy(bankAccount.getCreatedBy())
+                .createdDate(bankAccount.getCreatedDate())
+                .customerNo(bankAccount.getCustomerNo())
+                .customerName(bankAccount.getCustomerName())
+                .customerNIN(bankAccount.getCustomerNIN())
+                .customerBVN(bankAccount.getCustomerBVN())
+                .isActive(bankAccount.getIsActive())
+                .isDebitRestricted(bankAccount.getIsDebitRestricted())
+                .accountBalance(bankAccount.getAccountBalance())
+                .bankCode(bankAccount.getBankCode())
+                .build();
     }
 
+
     @Override
-    public Page<BankAccount> findAllByBankCode(String bankCode, Pageable pageable) {
-//        return bankAccountsRepository.findAll();
-        return bankAccountsRepository.findAllByBankCode(bankCode, pageable);
+    public Page<BankAccountResponseDTO> findAllByBankCode(String bankCode, Pageable pageable) {
+        // Fetch the paginated list of BankAccount entities based on the bank code
+        Page<BankAccount> bankAccountPage = bankAccountsRepository.findAllByBankCode(bankCode, pageable);
+
+        // Map each BankAccount entity to a BankAccountResponseDTO
+        return bankAccountPage.map(bankAccount -> BankAccountResponseDTO.builder()
+                .id(bankAccount.getId())
+                .accountNo(bankAccount.getAccountNo())
+                .branchNo(bankAccount.getBranchNo())
+                .createdBy(bankAccount.getCreatedBy())
+                .createdDate(bankAccount.getCreatedDate())
+                .customerNo(bankAccount.getCustomerNo())
+                .customerName(bankAccount.getCustomerName())
+                .customerNIN(bankAccount.getCustomerNIN())
+                .customerBVN(bankAccount.getCustomerBVN())
+                .isActive(bankAccount.getIsActive())
+                .isDebitRestricted(bankAccount.getIsDebitRestricted())
+                .accountBalance(bankAccount.getAccountBalance())
+                .bankCode(bankAccount.getBankCode())
+                .build());
     }
+
 }
